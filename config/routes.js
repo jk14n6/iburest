@@ -34,7 +34,11 @@ module.exports.routes = {
 
   '/': {
     view: 'homepage'
-  }
+  },
+
+  'post /message/sendtextemail' : 'MessageController.sendtextemail',
+  'post /message/twiliocbconfirmnumber' : 'MessageController.twiliocbconfirmnumber',
+
 
   /***************************************************************************
   *                                                                          *
