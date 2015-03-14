@@ -116,15 +116,11 @@ module.exports = {
         	EmailService.sendtext('toto@toto.com', 'j0k', 'klang.jonathan@gmail.com', 'sms confirmation', body, function(err, message) {
         		if(!err) {
     			//logging
-	            console.log('Success! The SID for this SMS message is:');
-	            console.log(message.sid);
-	            console.log('Message sent on:');
-	            console.log(message.dateCreated);
-
-	            res.send(200);
+	            console.log('Success! The email has been sent.');
+	            res.send('Your number has been confirmed.');
     		}
     		else
-    			res.send(400);
+    			res.send('The system could not confirm your number. Please contact via email.');
         	});
     }
 };
