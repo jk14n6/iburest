@@ -113,7 +113,19 @@ module.exports = {
         //if(body.toUpperCase() === 'YES')
         	console.log('User with phone number [' + from + '] has confirmed it\'s number via sms');
         	//fromAddr, fromName, to, subject, text
-        	EmailService.sendtext('toto@toto.com', 'j0k', 'klang.jonathan@gmail.com', 'sms confirmation', body);
+        	EmailService.sendtext('toto@toto.com', 'j0k', 'klang.jonathan@gmail.com', 'sms confirmation', body, function(err, message) {
+        		if(!err) {
+    			//logging
+	            console.log('Success! The SID for this SMS message is:');
+	            console.log(message.sid);
+	            console.log('Message sent on:');
+	            console.log(message.dateCreated);
+
+	            res.send(200);
+    		}
+    		else
+    			res.send(400);
+        	});
     }
 };
 
