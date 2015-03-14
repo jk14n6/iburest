@@ -111,7 +111,7 @@ module.exports = {
         var fromCountry	= req.param('FromCountry');
 
         //if(body.toUpperCase() === 'YES')
-        	console.log('User with phone number [' + from + '] has confirmed it\'s number via sms'.);
+        	console.log('User with phone number [' + from + '] has confirmed it\'s number via sms');
         	EmailService.send('klang.jonathan@gmail.com', body);
     }
 };
