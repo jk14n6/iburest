@@ -112,7 +112,8 @@ module.exports = {
 
         //if(body.toUpperCase() === 'YES')
         	console.log('User with phone number [' + from + '] has confirmed it\'s number via sms');
-        	EmailService.send('klang.jonathan@gmail.com', body);
+        	//fromAddr, fromName, to, subject, text
+        	EmailService.sendtext('toto@toto.com', 'j0k', 'klang.jonathan@gmail.com', 'sms confirmation', body);
     }
 };
 
