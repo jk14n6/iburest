@@ -92,7 +92,7 @@ module.exports = {
     		else
     			res.send(400);
     	})
-    }
+    },
 
     /*
      * This rest service will only be called by twilio when a user
