@@ -108,11 +108,10 @@ module.exports = {
 		});
 
 		var user = {
-			subscribed: true,
-			  address: username,
-			  name: useraddress
+				subscribed: true,
+			  	address: username,
+			  	name: useraddress
 			};
-		}
 
 		list.members().create(user, cb);
 	},
