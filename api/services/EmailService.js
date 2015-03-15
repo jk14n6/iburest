@@ -112,7 +112,8 @@ module.exports = {
 
 		list.info(function (err, data) {
 		  // `data` is mailing list info 
-		  console.log('Adding user ' + user + ' to list: ' + data);
+		  console.log('Adding user ' + JSON.stringify(user) + ' to list: ');
+		  console.log(data);
 		});
 
 		list.members().create(user, cb);
