@@ -31,14 +31,6 @@ module.exports = {
 
 	            //EmailService.invite(hostId, invitedId, date);
                 res.send(200);
-           //          res.send(200);
-	          // //   	if(!err) {
-	          // //   		res.send(200);
-	          // //   	}
-	        		// // else {
-	        		// // 	res.send(400);
-        			// // }
-	          //   });
 
 	        }
 	        else {
@@ -55,11 +47,25 @@ module.exports = {
     },
 
     sendtextemail: function(req, res) {
-    	var to = req.param('to');
-    	var fromAddress = req.param('fromaddress');
-    	var fromName = req.param('fromname');
-    	var subject = req.param('subject');
-    	var message = req.param('message');
+    	if(req.param('to') !== 'undefined' && req.param('to') !== null)
+    		var to = req.param('to');
+    	// field is mandatory so bad request if not specified
+    	else
+    		res.send(400);
+    	if(req.param('fromaddress') !== 'undefined' && req.param('fromaddress') !== null)
+    		var fromAddress = req.param('fromaddress');
+    	// field is mandatory so bad request if not specified
+    	else
+    		res.send(400);
+    	if(req.param('fromname') !== 'undefined' && req.param('fromname') !== null)
+    		var fromName = req.param('fromname');
+    	if(req.param('subject') !== 'undefined' && req.param('subject') !== null)
+    		var subject = req.param('subject');
+    	if(req.param('message') !== 'undefined' && req.param('message') !== null)
+    		var message = req.param('message');
+    	// field is mandatory so bad request if not specified
+    	else
+    		res.send(400);
 
     	EmailService.sendtext(fromAddress, fromName, to, subject, message, function (err, message) {
     		if(!err) {
@@ -93,35 +99,5 @@ module.exports = {
     			res.send(400);
     	})
     },
-
-    /*
-     * This rest service will only be called by twilio when a user
-     * wants to confirm it's phone number by replying to the sms
-     * the application has sent him. 
-     * Please do not alter.
-     */
-    twiliocbconfirmnumber : function(req, res) {
-        var messageSid 	= req.param('MessageSid');
-        var accountSid 	= req.param('AccountSid');
-        var from 		= req.param('From');
-        var to 			= req.param('To');
-        var body 		= req.param('Body');
-        var fromCity 	= req.param('FromCity');
-        var fromZip 	= req.param('FromZip');
-        var fromCountry	= req.param('FromCountry');
-
-        //if(body.toUpperCase() === 'YES')
-        	console.log('User with phone number [' + from + '] has confirmed it\'s number via sms');
-        	//fromAddr, fromName, to, subject, text
-        	EmailService.sendtext('toto@toto.com', 'j0k', 'klang.jonathan@gmail.com', 'sms confirmation', body, function(err, message) {
-        		if(!err) {
-    			//logging
-	            console.log('Success! The email has been sent.');
-	            res.send('Your number has been confirmed.');
-    		}
-    		else
-    			res.send('The system could not confirm your number. Please contact via email.');
-        	});
-    }
 };
 
