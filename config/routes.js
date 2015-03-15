@@ -37,6 +37,7 @@ module.exports.routes = {
   },
 
   'post /message/sendtextemail' : 'MessageController.sendtextemail',
+  'post /message/addusertolist' : 'MessageController.addusertolist',
   'post /message/confirmnumber' : 'TwilioCbController.confirmnumber',
 
 

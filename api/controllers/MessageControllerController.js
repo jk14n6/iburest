@@ -10,7 +10,7 @@ module.exports = {
 
     /*
      *
-     * EMAIL
+     * APP SPECIFIC TASKS
      *
      */
 	invite: function(req, res) {
@@ -39,31 +39,31 @@ module.exports = {
         });
     },
 
-    sendEmail: function(req, res) {
-    	var to = req.param('to');
-		var message = req.param('message');
-
-    	EmailService.send(to, message);
-    },
-
+    /*
+     *
+     * EMAILz
+     *
+     */
     sendtextemail: function(req, res) {
+    	var to;
+    	var fromAddress;
+    	var fromName;
+    	var subject;
+    	var message;
     	if(req.param('to') !== 'undefined' && req.param('to') !== null)
-    		var to = req.param('to');
-    	// field is mandatory so bad request if not specified
+    		to = req.param('to');
     	else
     		res.send(400);
     	if(req.param('fromaddress') !== 'undefined' && req.param('fromaddress') !== null)
-    		var fromAddress = req.param('fromaddress');
-    	// field is mandatory so bad request if not specified
+    		fromAddress = req.param('fromaddress');
     	else
     		res.send(400);
     	if(req.param('fromname') !== 'undefined' && req.param('fromname') !== null)
-    		var fromName = req.param('fromname');
+    		fromName = req.param('fromname');
     	if(req.param('subject') !== 'undefined' && req.param('subject') !== null)
-    		var subject = req.param('subject');
+    		subject = req.param('subject');
     	if(req.param('message') !== 'undefined' && req.param('message') !== null)
-    		var message = req.param('message');
-    	// field is mandatory so bad request if not specified
+    		message = req.param('message');
     	else
     		res.send(400);
 
@@ -77,8 +77,35 @@ module.exports = {
     	});
     },
 
+    addusertolist : function(req, res) {
+    	var listName;
+    	var subscriber;
+    	if(req.param('subscriber') !== 'undefined' && req.param('subscriber') !== null)
+    		subscriber = req.param('subscriber');
+    	else
+    		res.send(400);
+    	if(req.param('listname') !== 'undefined' && req.param('listname') !== null)
+    		listName = req.param('listname');
+    	else
+    		res.send(400);
+
+    	EmailService.addusertolist(subscriber, listName, function(err, data) {
+    		if(!err) {
+    			console.log('user was successfully added to mailing list!');
+    			res.send(200);
+    		}
+    		else
+    			res.send(400);
+    	});
+
+
+    },
+
+
     /*
+     *
      * SMS 
+     *
      */
     // simple sms sending
     sendSms: function(req, res) {
@@ -98,6 +125,21 @@ module.exports = {
     		else
     			res.send(400);
     	})
+    },
+
+    sendBulkSms: function(req, res) {
+    	var tos = req.param('tos');
+    	var body = req.param('body');
+
+    	//for (var key in tos)
+    	//{
+    	//   if (result.hasOwnProperty(key))
+    	//   {
+    	//      // here you have access to
+    	//      var MNGR_NAME = result[key].MNGR_NAME;
+    	//      var MGR_ID = result[key].MGR_ID;
+    	//   }
+    	//}
     },
 };
 

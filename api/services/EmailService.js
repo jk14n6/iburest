@@ -101,7 +101,8 @@ module.exports = {
 	},
 
 	addusertolist: function(user, list, cb) {
-
+		var list = mailgunjs.lists(list);
+		list.members().create(user, cb);
 	},
 
 	removeuserfromlist: function(user, list, cb) {
