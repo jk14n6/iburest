@@ -100,18 +100,20 @@ module.exports = {
 
 	},
 
-	addusertolist: function(username, useraddress, list, cb) {
-		var list = mailgunjs.lists(list);
-		list.info(function (err, data) {
-		  // `data` is mailing list info 
-		  console.log('Adding user ' + useraddress + ' to list: ' + data);
-		});
+	addusertolist: function(username, useraddress, listname, cb) {
+		var list = mailgunjs.lists(listname);
 
 		var user = {
 				subscribed: true,
 			  	address: username,
 			  	name: useraddress
 			};
+
+
+		list.info(function (err, data) {
+		  // `data` is mailing list info 
+		  console.log('Adding user ' + user + ' to list: ' + data);
+		});
 
 		list.members().create(user, cb);
 	},
