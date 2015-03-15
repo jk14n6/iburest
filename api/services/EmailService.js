@@ -105,8 +105,8 @@ module.exports = {
 
 		var user = {
 				subscribed: true,
-			  	address: username,
-			  	name: useraddress
+			  	address: useraddress,
+			  	name: username
 			};
 
 
