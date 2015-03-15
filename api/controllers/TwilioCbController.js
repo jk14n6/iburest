@@ -32,10 +32,12 @@ module.exports = {
     			//logging
 	            console.log('Success! The email has been sent.');
 	            //res.send('Your number has been confirmed.');
-	            res.status(200).send('Your number has been confirmed.');
+	            //res.status(200).send('Your number has been confirmed.');
+	            res.send(200);
     		}
     		else
-    			res.send('The system could not confirm your number. Please contact via email.');
+    			//res.send('The system could not confirm your number. Please contact via email.');
+    			res.send(400);
         	});
     }
 };
