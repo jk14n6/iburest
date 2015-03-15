@@ -37,7 +37,7 @@ module.exports.routes = {
   },
 
   'post /message/sendtextemail' : 'MessageController.sendtextemail',
-  'post /message/twiliocbconfirmnumber' : 'MessageController.twiliocbconfirmnumber',
+  'post /message/confirmnumber' : 'TwilioCbController.confirmnumber',
 
 
   /***************************************************************************
