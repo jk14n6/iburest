@@ -79,9 +79,14 @@ module.exports = {
 
     addusertolist : function(req, res) {
     	var listName;
-    	var subscriber;
-    	if(req.param('subscriber') !== 'undefined' && req.param('subscriber') !== null)
-    		subscriber = req.param('subscriber');
+    	var subscriberName;
+    	var subscriberAddr;
+    	if(req.param('subscribername') !== 'undefined' && req.param('subscribername') !== null)
+    		subscriberName = req.param('subscribername');
+    	else
+    		res.send(400);
+    	if(req.param('subscriberaddr') !== 'undefined' && req.param('subscriberaddr') !== null)
+    		subscriberAddr = req.param('subscriberaddr');
     	else
     		res.send(400);
     	if(req.param('listname') !== 'undefined' && req.param('listname') !== null)
@@ -89,7 +94,7 @@ module.exports = {
     	else
     		res.send(400);
 
-    	EmailService.addusertolist(subscriber, listName, function(err, data) {
+    	EmailService.addusertolist(subscriberName, subscriberAddr, listName, function(err, data) {
     		if(!err) {
     			console.log('user was successfully added to mailing list!');
     			res.send(200);
