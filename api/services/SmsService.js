@@ -37,10 +37,10 @@ module.exports = {
 
     // basic send
     send: function(toPhone, message, cb) {
-        if(to !== undefined && body !== undefined) {
+        if(toPhone !== undefined && message !== undefined) {
             // send sms
             twilio.sendSms({
-                to: to,
+                to: toPhone,
                 from: fromPhone,
                 body: message
             }, cb);
