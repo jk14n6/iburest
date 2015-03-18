@@ -1,5 +1,5 @@
 //var api_key = 'key-7b54fbef79a56c2ec89e2a2bc241da1c';
-var api_key = process.env.mailgun.key;
+var api_key = process.env.MAILGUN_KEY;
 //var api_key = process.env.MAILGUNAPIKEY;
 var domain = 'mail.ibu.io';
 var mailgunjs = require('mailgun-js')({apiKey: api_key, domain: domain});

@@ -1,5 +1,5 @@
 //var stripe = require('stripe')('sk_test_vtD1XjiwVNqtN3u0cSCZ6EMz');
-var stripekey = process.env.stripe.key.private;
+var stripekey = process.env.STRIPE_KEY_PRIVATE;
 var stripe = require('stripe')(stripekey);
 
 var Q = require('q');
