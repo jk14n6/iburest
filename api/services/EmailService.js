@@ -1,4 +1,5 @@
-var api_key = 'key-7b54fbef79a56c2ec89e2a2bc241da1c';
+//var api_key = 'key-7b54fbef79a56c2ec89e2a2bc241da1c';
+var api_key = process.env.mailgun.key;
 //var api_key = process.env.MAILGUNAPIKEY;
 var domain = 'mail.ibu.io';
 var mailgunjs = require('mailgun-js')({apiKey: api_key, domain: domain});
@@ -100,6 +101,7 @@ module.exports = {
 
 	},
 
+	// add a user to a specific mailing list
 	addusertolist: function(username, useraddress, listname, cb) {
 		var list = mailgunjs.lists(listname);
 
