@@ -24,19 +24,12 @@ module.exports = {
         var fromZip 	= req.param('FromZip');
         var fromCountry	= req.param('FromCountry');
 
+        // maybe check for correct string sent by user or just wait for any answer
         //if(body.toUpperCase() === 'YES')
         	console.log('User with phone number [' + from + '] has confirmed it\'s number via sms');
-        	//EmailService.sendtext('toto@toto.com', 'j0k', 'klang.jonathan@gmail.com', 'sms confirmation', 'Your phone has been confirmed', function(err, message) {
-        		if(!err) {
-    			//logging
-	            console.log('Success! The email has been sent.');
-	            //res.status(200).send('Your number has been confirmed.');
-	            res.send(200);
-    		}
-    		else
-    			//res.status(400).send('The system could not confirm your number. Please contact via email.');
-    			res.send(400);
-        	});
+
+            // ADD USER PHONE CONFIRMED IN DB
+            // TODO
     }
 };
 
