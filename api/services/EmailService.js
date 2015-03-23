@@ -1,6 +1,4 @@
-//var api_key = 'key-7b54fbef79a56c2ec89e2a2bc241da1c';
 var api_key = process.env.MAILGUN_KEY;
-//var api_key = process.env.MAILGUNAPIKEY;
 var domain = 'mail.ibu.io';
 var mailgunjs = require('mailgun-js')({apiKey: api_key, domain: domain});
 // var mailcomposer = new MailComposer();
@@ -41,6 +39,9 @@ module.exports = {
 		mailgun.sendRaw(from, to, message, cb);
 	},
 
+	/*
+	 * Better to use this one to send normal email
+	 */
 	sendtext: function(fromAddr, fromName, to, subject, text, cb) {
 		var data = {
   			from: fromName + ' <' + fromAddr + '>',
@@ -51,6 +52,7 @@ module.exports = {
  
 		mailgunjs.messages().send(data, cb);
 	},
+
 
 	sendActivation: function (user) {
 		if (typeof user.profile.contactEmail === 'undefined') {
@@ -91,14 +93,6 @@ module.exports = {
         		});
 			})
 		})
-	},
-
-	sendhtmltolist: function(from, to, subject, html, cb) {
-
-	},
-
-	sendtexttolist: function(from, to, subject, html, cb) {
-
 	},
 
 	// add a user to a specific mailing list

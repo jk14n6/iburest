@@ -1,4 +1,3 @@
-//var twilio = require('twilio')('ACfc6abc644bcdf94532df4e1be88aecae', 'c914be9076d53e2dfb7a545e3f64f350');
 var twiliosid = process.env.TWILIO_SID;
 var twiliokey = process.env.TWILIO_KEY;
 sails.log.info('twiliosid: ' + twiliosid);
