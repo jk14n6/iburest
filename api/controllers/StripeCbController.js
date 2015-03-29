@@ -7,7 +7,11 @@
 
 module.exports = {
 	connectUserCb : function(req, res) {
-		console.log(req);
+		console.log(req.param('response_type'));
+		console.log(req.param('client_id'));
+		console.log(req.param('scope'));
+
+		res.send('OK');
 	}
 };
 
