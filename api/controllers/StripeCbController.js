@@ -15,7 +15,7 @@ module.exports = {
 		    { form: { 
 		    		client_secret: process.env.STRIPE_KEY_PRIVATE,
 		    		code : req.param('code'),
-		    		grant_type : authorization_code
+		    		grant_type : 'authorization_code'
 	    		} 
     		},
 		    function (error, response, body) {
