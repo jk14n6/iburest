@@ -41,6 +41,8 @@ module.exports.routes = {
   'post /message/confirmnumber' : 'TwilioCbController.confirmnumber',
   'post /message/sendsms'       : 'MessageController.sendSms',
 
+  'post /stripe/connectusercb'  : 'StripeCbController.connectUserCb',
+
 
   /***************************************************************************
   *                                                                          *
