@@ -17,6 +17,12 @@ module.exports = {
 		console.log(req.param('code'));
 		console.log(req.param('scope'));
 
+		// get it from 'me' object
+		var userid = 1;
+
+		// get the user id
+		//var user = ...
+
 		// get the authentication credentials for the new user
 		// reponse will be like:
 		/*
@@ -47,8 +53,23 @@ module.exports = {
 		        if (!error && (response.statusCode == 200 || response.statusCode == 201)) {
 		            console.log(body);
 
-		            // persist returned info into user's stripe profile
-		            
+		            // update user/app infos set stripe profile
+		            var user = User.findOne(userid).done(function(error, user) {
+		                if(error) {
+		                    // do something with the error.
+		                }
+
+		                user.stripeAccount = body;
+
+		                user.save(function(error) {
+		                    if(error) {
+		                        // do something with the error.
+		                    } else {
+		                        // value saved!
+		                        req.send(user);
+		                    }
+		                });
+		            });
 		        }
 		    }
 		);
