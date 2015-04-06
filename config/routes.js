@@ -42,6 +42,7 @@ module.exports.routes = {
   'post /message/sendsms'       : 'MessageController.sendSms',
 
   'get /stripe/authorizeaccount'  : 'StripeCbController.accountAuthorize',
+  'get /bank/getplans'            : 'StripeController.getPlans',
 
 
   /***************************************************************************
