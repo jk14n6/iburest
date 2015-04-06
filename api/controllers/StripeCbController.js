@@ -60,7 +60,7 @@ module.exports = {
 		        if (!error && (response.statusCode == 200 || response.statusCode == 201)) {
 		            log(JSON.stringify(body, null, 2));
 
-		            StripeAccount.create({token_type:body.token_type}).exec(function createCB(err, created) {
+		            StripeAccount.create({token_type : JSON.parse(body).token_type}).exec(function createCB(err, created) {
 		            	log('Created Stripe Account: ' + JSON.stringify(created, null, 2));
 		            });
 		        }
