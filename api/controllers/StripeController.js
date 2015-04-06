@@ -5,6 +5,9 @@
  * @help        :: See http://links.sailsjs.org/docs/controllers
  */
 
+ 
+var log 	= require('captains-log')();
+
  /*
   * STRIPE ERROR TYPES AND ERROR CODES:
 	TYPES

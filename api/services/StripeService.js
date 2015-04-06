@@ -2,14 +2,15 @@ var stripekey = process.env.STRIPE_KEY_PRIVATE;
 var stripe = require('stripe')(stripekey);
 
 var Q = require('q');
+var log = require('captains-log')();
 
 module.exports = {
 
 		subscribeToPlan: function(stripeToken, customerEmail, planId, userId) {
-			console.log('Stripe token: ' + stripeToken);
-			console.log('Customer email: ' + customerEmail);
-			console.log('Plan ID: ' + planId);
-			console.log('Internal user: ' + userId);
+			log('Stripe token: ' + stripeToken);
+			log('Customer email: ' + customerEmail);
+			log('Plan ID: ' + planId);
+			log('Internal user: ' + userId);
 
 
 			// promises
@@ -26,7 +27,7 @@ module.exports = {
 					return deferred.reject(err);
 				} 
 				// log info
-				console.log('Card has been processed for customer: ' + customer.id);
+				log('Card has been processed for customer: ' + customer.id);
 
 				// update user with new customer id
 				User.update({ id: userId }, {stripeId : customer.id, hasAgreedTerms : true}).then(function (updatedUsers) {
@@ -60,7 +61,7 @@ module.exports = {
 			  	}
 			  });
 			  deferred.resolve(listOfPlans);
-			  console.log('Fetched list of plans: ' + listOfPlans);
+			  log('Fetched list of plans: ' + listOfPlans);
 			});
 			return deferred.promise;
 		}
