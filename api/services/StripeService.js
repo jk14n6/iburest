@@ -61,7 +61,7 @@ module.exports = {
 			  	}
 			  });
 			  deferred.resolve(listOfPlans);
-			  log('Fetched list of plans: ' + listOfPlans);
+			  log('Fetched list of plans: ' + JSON.stringify(listOfPlans, null, 2);
 			});
 			return deferred.promise;
 		}
