@@ -56,24 +56,19 @@ module.exports = {
     		},
 		    function (error, response, body) {
 		        if (!error && (response.statusCode == 200 || response.statusCode == 201)) {
-		            log(body);
+		            log(JSON.stringify(body, null, 2));
 
-		            // update user/app infos set stripe profile
-		            var user = User.findOne(userid).done(function(error, user) {
-		                if(error) {
-		                    // do something with the error.
-		                }
-
-		                user.stripeAccount = body;
-
-		                user.save(function(error) {
-		                    if(error) {
-		                        // do something with the error.
-		                    } else {
-		                        // value saved!
-		                        req.send(user);
-		                    }
-		                });
+		            //{
+		            //  "token_type": "bearer",
+		            //  "stripe_publishable_key": PUBLISHABLE_KEY,
+		            //  "scope": "read_write",
+		            //  "livemode": false,
+		            //  "stripe_user_id": USER_ID,
+		            //  "refresh_token": REFRESH_TOKEN,
+		            //  "access_token": ACCESS_TOKEN
+		            //}
+		            StripeAccount.create({token_type:body.token_type}).exec(function createCB(err, created) {
+		            	log('Created Stripe Account: ' + JSON.stringify(created, null, 2));
 		            });
 		        }
 		        else if(error) {
