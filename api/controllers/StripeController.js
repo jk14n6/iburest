@@ -5,7 +5,7 @@
  * @help        :: See http://links.sailsjs.org/docs/controllers
  */
 
- 
+
 var log 	= require('captains-log')();
 
  /*
@@ -67,9 +67,12 @@ module.exports = {
 	getPlans : function(req, res) {
 		var listOfPlans = [];
 
-		listOfPlans = StripeService.getPlans('gogo_');
-		//if()
-		log(listOfPlans);
+		StripeService.getPlans('gogo_')
+		.then(function(listOfPlans) {
+			log(JSON.stringify(listOfPlans, null, 2));
+		}, function(error) {
+			log(error);
+		});
 	}
 };
 

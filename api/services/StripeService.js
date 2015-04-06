@@ -52,16 +52,18 @@ module.exports = {
 				if (err) {
 					return deferred.reject(err);
 				}
-			  var listOfPlans = [];
+				else {
+			  		var listOfPlans = [];
 
-			  // loop on result to extract only corresponding plans
-			  plans.data.forEach(function(plan) {
-			  	if(plan.id.length >= prefixPlan.length && plan.id.substring(0, prefixPlan.length) === prefixPlan) {
-			  		listOfPlans.push(plan);
-			  	}
-			  });
-			  deferred.resolve(listOfPlans);
-			  log('Fetched list of plans: ' + JSON.stringify(listOfPlans, null, 2));
+			  		// loop on result to extract only corresponding plans
+			  		plans.data.forEach(function(plan) {
+		  				if(plan.id.length >= prefixPlan.length && plan.id.substring(0, prefixPlan.length) === prefixPlan) {
+			  				listOfPlans.push(plan);
+			  			}
+			  		});
+			  		deferred.resolve(listOfPlans);
+			  		//log('Fetched list of plans: ' + JSON.stringify(listOfPlans, null, 2));
+				}			  		
 			});
 			return deferred.promise;
 		}
