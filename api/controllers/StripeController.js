@@ -6,7 +6,7 @@
  */
 
 
-var log 	= require('captains-log')();
+var log = require('captains-log')();
 
  /*
   * STRIPE ERROR TYPES AND ERROR CODES:

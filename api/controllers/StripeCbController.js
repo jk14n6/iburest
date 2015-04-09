@@ -60,16 +60,18 @@ module.exports = {
 		        if (!error && (response.statusCode == 200 || response.statusCode == 201)) {
 		            log(JSON.stringify(body, null, 2));
 
+		            // create a new StripeAccount data object in DB to be able to retrive info
 		            StripeAccount.create({
-		            						company_name           : 'GogoExotic',
-		            						token_type             : JSON.parse(body).token_type,
-		            						stripe_publishable_key : JSON.parse(body).stripe_publishable_key,
-		            						scope                  : JSON.parse(body).scope,
-		            						livemode               : JSON.parse(body).livemode,
-		            						stripe_user_id         : JSON.parse(body).stripe_user_id,
-		            						refresh_token          : JSON.parse(body).refresh_token,
-		            						access_token           : JSON.parse(body).access_token
-		            					}).exec(function createCB(err, created) {
+							company_name           : 'GogoExotic',
+							fee_percent            : 25,
+							token_type             : JSON.parse(body).token_type,
+							stripe_publishable_key : JSON.parse(body).stripe_publishable_key,
+							scope                  : JSON.parse(body).scope,
+							livemode               : JSON.parse(body).livemode,
+							stripe_user_id         : JSON.parse(body).stripe_user_id,
+							refresh_token          : JSON.parse(body).refresh_token,
+							access_token           : JSON.parse(body).access_token
+						}).exec(function createCB(err, created) {
 		            	log('Created Stripe Account: ' + JSON.stringify(created, null, 2));
 		            });
 		        }

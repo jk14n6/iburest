@@ -36,14 +36,6 @@ module.exports.routes = {
     view: 'homepage'
   },
 
-  'post /message/sendtextemail' : 'MessageController.sendtextemail',
-  'post /message/addusertolist' : 'MessageController.addusertolist',
-  'post /message/confirmnumber' : 'TwilioCbController.confirmnumber',
-  'post /message/sendsms'       : 'MessageController.sendSms',
-
-  'get /stripe/authorizeaccount'  : 'StripeCbController.accountAuthorize',
-  'get /bank/getplans'            : 'StripeController.getPlans',
-
 
   /***************************************************************************
   *                                                                          *
@@ -54,5 +46,13 @@ module.exports.routes = {
   * for configuration options and examples.                                  *
   *                                                                          *
   ***************************************************************************/
+
+  'post /message/sendtextemail' : 'MessageController.sendtextemail',
+  'post /message/addusertolist' : 'MessageController.addusertolist',
+  'post /message/confirmnumber' : 'TwilioCbController.confirmnumber',
+  'post /message/sendsms'       : 'MessageController.sendSms',
+
+  'get /stripe/authorizeaccount'  : 'StripeCbController.accountAuthorize',
+  'get /bank/getplans'            : 'StripeController.getPlans',
 
 };
