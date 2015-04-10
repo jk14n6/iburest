@@ -74,7 +74,7 @@ module.exports = {
 		}, function(error) {
 			log(error);
 		});
-	}
+	},
 
 	createCustomer : function(req, res) {
 		var desc     = req.param('description');
@@ -86,7 +86,7 @@ module.exports = {
 		}, function(err, customer) {
 		  log('Created Customer' + JSON.stringify(customer, null, 2));
 		});
-	}
+	},
 
 	/*
 	 * Create a Stripe credit card to be associated to a Stripe Customer
