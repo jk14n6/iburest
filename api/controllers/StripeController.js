@@ -3,6 +3,7 @@
  *
  * @description :: Server-side logic for managing stripes
  * @help        :: See http://links.sailsjs.org/docs/controllers
+ * @author      :: j0n k.
  */
 
 
@@ -73,6 +74,48 @@ module.exports = {
 		}, function(error) {
 			log(error);
 		});
+	}
+
+	createCustomer : function(req, res) {
+		var desc     = req.param('description');
+		var courriel = req.param('email');
+
+		stripe.customers.create({
+		  description : desc,
+		  email       : courriel
+		}, function(err, customer) {
+		  log('Created Customer' + JSON.stringify(customer, null, 2));
+		});
+	}
+
+	/*
+	 * Create a Stripe credit card to be associated to a Stripe Customer
+	 */
+	createCard : function(req, res) {
+		var customerId = req.param('customerid');
+		var cardNumber = req.param('cardnumber');
+		var expMonth   = req.param('expmonth');
+		var expYear    = req.param('expyear');
+		var cardcvc    = req.param('cvc');
+		var name       = req.param('name');
+
+
+		stripe.customers.createSource(
+		  customerId,
+		  {
+		  	source: 
+		  	{
+			  	object : 'card',
+			  	number : cardNumber,
+			  	exp_month : expMonth,
+			  	exp_year  : expYear,
+			  	cvc       : cardcvc
+		  	}
+		  },
+		  function(err, card) {
+		    log('Created Card: ' + JSON.stringify(card, null, 2));
+		  }
+		);
 	}
 };
 
