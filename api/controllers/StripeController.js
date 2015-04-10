@@ -85,7 +85,13 @@ module.exports = {
 		  description : desc,
 		  email       : courriel
 		}, function(err, customer) {
-		  log('Created Customer' + JSON.stringify(customer, null, 2));
+			if(!err) {
+		  		log('Created Customer' + JSON.stringify(customer, null, 2));
+		  		res.send(customer);
+		 	}
+		 	else {
+		 		log('ERROR: ' + error);
+		 	}
 		});
 	},
 
@@ -114,7 +120,13 @@ module.exports = {
 		  	}
 		  },
 		  function(err, card) {
-		    log('Created Card: ' + JSON.stringify(card, null, 2));
+			if(!err) {
+		    	log('Created Card: ' + JSON.stringify(card, null, 2));
+		    	res.send(card);
+		    }
+		 	else {
+		 		log('ERROR: ' + error);
+		 	}
 		  }
 		);
 	}
