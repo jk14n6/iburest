@@ -8,7 +8,8 @@
 
 
 var log = require('captains-log')();
-
+var stripekey = process.env.STRIPE_KEY_PRIVATE;
+var stripe = require('stripe')(stripekey);
  /*
   * STRIPE ERROR TYPES AND ERROR CODES:
 	TYPES
