@@ -170,8 +170,8 @@ module.exports = {
 		var payerId       = req.param('payerid');
 		var applicantId   = req.param('applicantid');
 		var statementDesc = req.param('statementdesc'); // An arbitrary string to be displayed on your customer's credit card statement. This may be up to 22 characters
-		var receiptEmail  = // The email address to send this charge's receipt to
-		var destination   = // An account to make the charge on behalf of
+		//var receiptEmail  = // The email address to send this charge's receipt to
+		//var destination   = // An account to make the charge on behalf of
 
 
 	}
