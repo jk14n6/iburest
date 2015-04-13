@@ -77,6 +77,29 @@ module.exports = {
 		});
 	},
 
+	/*
+	 * Subscribe to the 0$ plan (which is used for 
+	 * getting all the invoices of the payment period)
+	 */
+	 subscribeToPlan : function(req, res) {
+	 	var planId     = req.param('planid');
+	 	var customerId = req.param('customerid');
+
+	 	stripe.customers.createSubscription(
+	 	  customerId,
+	 	  {plan: planId},
+	 	  function(err, subscription) {
+			if(!err) {
+				log('Customer ' + customerId + ' subscribed to Gogo Auto Plan (0$)');
+			}
+			else {
+		 		log('ERROR: ' + error);
+			}
+	 	  }
+	 	);
+
+	 },
+
 	createCustomer : function(req, res) {
 		var desc     = req.param('description');
 		var courriel = req.param('email');
@@ -87,6 +110,8 @@ module.exports = {
 		}, function(err, customer) {
 			if(!err) {
 		  		log('Created Customer' + JSON.stringify(customer, null, 2));
+
+		  		// ideally the returned customer id should be added to the club's profile so we can retrieve it easilly
 		  		res.send(customer);
 		 	}
 		 	else {
@@ -129,6 +154,26 @@ module.exports = {
 		 	}
 		  }
 		);
+	},
+
+	/*
+	 * Create a Stripe charge for a certain customer.
+	 * This type of charge does not require any client form to be filled and 
+	 * thus no stripe token is needed. It's a static charge that is done when
+	 * goGo wants to charge a club, for example.
+	 * 
+	 * CHARGE_CLUB_01 has to be defined as an env variable to define the amount to charge
+	 */
+	createCharge : function(req, res) {
+		var amount        = process.env.CHARGE_CLUB_01;
+		var currency      = 'CAD';
+		var payerId       = req.param('payerid');
+		var applicantId   = req.param('applicantid');
+		var statementDesc = req.param('statementdesc'); // An arbitrary string to be displayed on your customer's credit card statement. This may be up to 22 characters
+		var receiptEmail  = // The email address to send this charge's receipt to
+		var destination   = // An account to make the charge on behalf of
+
+
 	}
 };
 

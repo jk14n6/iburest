@@ -55,6 +55,7 @@ module.exports.routes = {
   'get /stripe/authorizeaccount'  : 'StripeCbController.accountAuthorize',
   'get /bank/getplans'            : 'StripeController.getPlans',
   'post /bank/createcustomer'     : 'StripeController.createCustomer',
-  'post /bank/createcard'         : 'StripeController.createCard'
+  'post /bank/createcard'         : 'StripeController.createCard',
+  'post /bank/subscribetoplan'    : 'StripeController.subscribeToPlan'
 
 };
