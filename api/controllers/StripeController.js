@@ -190,10 +190,10 @@
 		stripe.customers.retrieve(customerId, function(err, customer) {
             if(!err) {
                 if(customer.subscriptions !== null && typeof customer.subscriptions !== 'undefined') {
-                    var arrSubscriptions = customer.subscriptions;
+                    var arrSubscriptions = customer.subscriptions;//JSON.parse(customer.subscriptions);
 
-                    log('customer.subscriptions: ' + customer.subscriptions);
-                    log('arrSubscriptions: ' + arrSubscriptions);
+                    log('customer.subscriptions: ' + JSON.stringify(customer.subscriptions, null, 2);
+                    log('arrSubscriptions: ' + JSON.stringify(arrSubscriptions, null, 2);
 
                     arrSubscriptions.forEach(function (subsc) {
                         if(subsc.plan.id === 'gogo_auto') {
