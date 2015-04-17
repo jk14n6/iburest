@@ -7,9 +7,9 @@
  */
 
 
-var log = require('captains-log')();
-var stripekey = process.env.STRIPE_KEY_PRIVATE;
-var stripe = require('stripe')(stripekey);
+ var log = require('captains-log')();
+ var stripekey = process.env.STRIPE_KEY_PRIVATE;
+ var stripe = require('stripe')(stripekey);
  /*
   * STRIPE ERROR TYPES AND ERROR CODES:
 	TYPES
@@ -59,101 +59,155 @@ var stripe = require('stripe')(stripekey);
 		    // You probably used an incorrect API key
 		    break;
 		}
-  */
+      */
 
-module.exports = {
+      module.exports = {
+
+	/*
+	 * All those functions are made for a Club to be able to pay it's dues.
+	 * The payments are made via ibu's Stripe account and are destined to gogo.
+	 * ibu will take a fee on each payments.
+	 * Here are the steps to be able to charge a club:
+	 * 		1. 	GogoExotic has to create a 'connect' account by filling a form on Stripe
+	 *			site.
+	 *		2.	The Club has to fill a form in order to create a 'Customer' entity in ibu's
+	 *			Strip account. After submiting the form, a Customer and a Card will be created
+	 *			and available for ibu to start charging.
+	 *		3.	Once a Club is created and it's Stripe corresponding 'Customer' created, we subscribe
+	 *			it to a dummy plan (0$/month) in order to be able to charge him some invoices every
+	 *			'x' days.
+	 *		4.	Whenever a Club uses the service, we create an invoice that will be added to a list 
+	 *			of pending invoices. At the end of the month, all invoices will be charged and only
+	 *			at that moment ibu will get a fee% from the total amount from the invoices and gogo
+	 *			will get the rest.
+	 */
 
 	/* 
 	 * Get a list of all plans (here all plans starting with string 'gogo_')
 	 */
-	getPlans : function(req, res) {
-		var listOfPlans = [];
+    getPlans : function(req, res) {
+    var listOfPlans = [];
 
-		StripeService.getPlans('gogo_')
-		.then(function(listOfPlans) {
-			log(JSON.stringify(listOfPlans, null, 2));
-		}, function(error) {
-			log(error);
-		});
-	},
+    StripeService.getPlans('gogo_')
+    .then(function(listOfPlans) {
+        log(JSON.stringify(listOfPlans, null, 2));
+    }, function(error) {
+        log(error);
+        });
+    },
 
 	/*
 	 * Subscribe to the 0$ plan (which is used for 
 	 * getting all the invoices of the payment period)
-	 */
-	 subscribeToPlan : function(req, res) {
-	 	var planId     = req.param('planid');
-	 	var customerId = req.param('customerid');
+    */
+    subscribeToPlan : function(req, res) {
+        var planId     = req.param('planid');
+        var customerId = req.param('customerid');
 
-	 	stripe.customers.createSubscription(
-	 	  customerId,
-	 	  {plan: planId},
-	 	  function(err, subscription) {
-			if(!err) {
-				log('Customer ' + customerId + ' subscribed to Gogo Auto Plan (0$)');
-			}
-			else {
-		 		log('ERROR: ' + error);
-			}
-	 	  }
-	 	);
+        stripe.customers.createSubscription(
+            customerId,
+            {plan: planId},
+            function(err, subscription) {
+                if(!err) {
+                    log('Customer ' + customerId + ' subscribed to plan ' + planId);
+                }
+                else {
+                    log('ERROR: ' + error);
+                }
+            }
+            );
 
-	 },
+    },
 
-	createCustomer : function(req, res) {
-		var desc     = req.param('description');
-		var courriel = req.param('email');
+    createCustomer : function(req, res) {
+        var desc     = req.param('description');
+        var courriel = req.param('email');
 
-		stripe.customers.create({
-		  description : desc,
-		  email       : courriel
-		}, function(err, customer) {
-			if(!err) {
-		  		log('Created Customer' + JSON.stringify(customer, null, 2));
+        stripe.customers.create({
+            description : desc,
+            email       : courriel
+        }, function(err, customer) {
+            if(!err) {
+                log('Created Customer' + JSON.stringify(customer, null, 2));
 
-		  		// ideally the returned customer id should be added to the club's profile so we can retrieve it easilly
-		  		res.send(customer);
-		 	}
-		 	else {
-		 		log('ERROR: ' + error);
-		 	}
-		});
-	},
+            // ideally the returned customer id should be added to the club's profile so we can retrieve it easilly
+            res.send(customer);
+            }
+            else {
+                log('ERROR: ' + error);
+            }
+        });
+    },
+
+    /*
+    * Create a Stripe credit card to be associated to a Stripe Customer
+    */
+    createCard : function(req, res) {
+        var customerId = req.param('customerid');
+        var cardNumber = req.param('cardnumber');
+        var expMonth   = req.param('expmonth');
+        var expYear    = req.param('expyear');
+        var cardcvc    = req.param('cvc');
+        var name       = req.param('name');
+
+
+        stripe.customers.createSource(
+            customerId,
+            {
+                source: 
+                {
+                    object : 'card',
+                    number : cardNumber,
+                    exp_month : expMonth,
+                    exp_year  : expYear,
+                    cvc       : cardcvc
+                }
+            },
+            function(err, card) {
+                if(!err) {
+                    log('Created Card: ' + JSON.stringify(card, null, 2));
+                    res.send(card);
+                }
+                else {
+                    log('ERROR: ' + error);
+                }
+            }
+            );
+    },
 
 	/*
-	 * Create a Stripe credit card to be associated to a Stripe Customer
+	 * Creates a Stripe 'Invoice Item' which will be added to the gogo_auto 
+	 * subscription of the cutomer.
+	 * This only applies for the clubs.
 	 */
-	createCard : function(req, res) {
-		var customerId = req.param('customerid');
-		var cardNumber = req.param('cardnumber');
-		var expMonth   = req.param('expmonth');
-		var expYear    = req.param('expyear');
-		var cardcvc    = req.param('cvc');
-		var name       = req.param('name');
+    createInvoiceItem : function(req, res) {
+      var customerId = req.param('customerid');
+		var totalAmount = req.param('amount');     //process.env.CHARGE_CLUB_01;
+		var currency   = 'CAD';
+		var desc       = req.param('description');
 
+		// get customer's array of subsciptions and get the id of the gogo_auto subsciption
+		stripe.customers.retrieve(customerId, function(err, customer) {
+            if(!err) {
+                if(customer.subscriptions !== null && typeof customer.subscriptions !== 'undefined') {
+                    var arrSubscriptions = customer.subscriptions;
+                    arrSubscriptions.forEach(function (subsc) {
+                        if(subsc.plan.id === 'gogo_auto') {
 
-		stripe.customers.createSource(
-		  customerId,
-		  {
-		  	source: 
-		  	{
-			  	object : 'card',
-			  	number : cardNumber,
-			  	exp_month : expMonth,
-			  	exp_year  : expYear,
-			  	cvc       : cardcvc
-		  	}
-		  },
-		  function(err, card) {
-			if(!err) {
-		    	log('Created Card: ' + JSON.stringify(card, null, 2));
-		    	res.send(card);
-		    }
-		 	else {
-		 		log('ERROR: ' + error);
-		 	}
-		  }
-		);
+                            stripe.invoiceItems.create({
+                                customer: customerId,
+                                amount: totalAmount,
+                                currency: "cad",
+                                description: desc,
+                                subscription: subsc.id
+                            }, function(err, invoiceItem) {
+                                log('Created Invoice Item: ' + JSON.stringify(invoiceItem, null, 2));
+                            });
+                        }
+                    });
+                }
+            }
+        });
 	},
 
 	/*
@@ -164,16 +218,8 @@ module.exports = {
 	 * 
 	 * CHARGE_CLUB_01 has to be defined as an env variable to define the amount to charge
 	 */
-	createCharge : function(req, res) {
-		var amount        = process.env.CHARGE_CLUB_01;
-		var currency      = 'CAD';
-		var payerId       = req.param('payerid');
-		var applicantId   = req.param('applicantid');
-		var statementDesc = req.param('statementdesc'); // An arbitrary string to be displayed on your customer's credit card statement. This may be up to 22 characters
-		//var receiptEmail  = // The email address to send this charge's receipt to
-		//var destination   = // An account to make the charge on behalf of
+    createCharge : function(req, res) {
 
-
-	}
+    }
 };
 
