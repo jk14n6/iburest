@@ -191,6 +191,10 @@
             if(!err) {
                 if(customer.subscriptions !== null && typeof customer.subscriptions !== 'undefined') {
                     var arrSubscriptions = customer.subscriptions;
+
+                    log('customer.subscriptions: ' + customer.subscriptions);
+                    log('arrSubscriptions: ' + arrSubscriptions);
+
                     arrSubscriptions.forEach(function (subsc) {
                         if(subsc.plan.id === 'gogo_auto') {
 
