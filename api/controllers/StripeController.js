@@ -71,7 +71,7 @@
 	 * 		1. 	GogoExotic has to create a 'connect' account by filling a form on Stripe
 	 *			site.
 	 *		2.	The Club has to fill a form in order to create a 'Customer' entity in ibu's
-	 *			Strip account. After submiting the form, a Customer and a Card will be created
+	 *			Stripe account. After submiting the form, a Customer and a Card will be created
 	 *			and available for ibu to start charging.
 	 *		3.	Once a Club is created and it's Stripe corresponding 'Customer' created, we subscribe
 	 *			it to a dummy plan (0$/month) in order to be able to charge him some invoices every
@@ -96,29 +96,6 @@
         });
     },
 
-	/*
-	 * Subscribe to the 0$ plan (which is used for 
-	 * getting all the invoices of the payment period)
-    */
-    subscribeToPlan : function(req, res) {
-        var planId     = req.param('planid');
-        var customerId = req.param('customerid');
-
-        stripe.customers.createSubscription(
-            customerId,
-            {plan: planId},
-            function(err, subscription) {
-                if(!err) {
-                    log('Customer ' + customerId + ' subscribed to plan ' + planId);
-                }
-                else {
-                    log('ERROR: ' + error);
-                }
-            }
-            );
-
-    },
-
     createCustomer : function(req, res) {
         var desc     = req.param('description');
         var courriel = req.param('email');
@@ -137,6 +114,29 @@
                 log('ERROR: ' + error);
             }
         });
+    },
+
+    /*
+     * Subscribe to the 0$ plan (which is used for 
+     * getting all the invoices of the payment period)
+    */
+    subscribeToPlan : function(req, res) {
+        var planId     = req.param('planid');
+        var customerId = req.param('customerid');
+
+        stripe.customers.createSubscription(
+            customerId,
+            {plan: planId},
+            function(err, subscription) {
+                if(!err) {
+                    log('Customer ' + customerId + ' subscribed to plan ' + planId);
+                }
+                else {
+                    log('ERROR: ' + error);
+                }
+            }
+            );
+
     },
 
     /*
@@ -181,7 +181,7 @@
 	 * This only applies for the clubs.
 	 */
     createInvoiceItem : function(req, res) {
-      var customerId = req.param('customerid');
+        var customerId = req.param('customerid');
 		var totalAmount = req.param('amount');     //process.env.CHARGE_CLUB_01;
 		var currency   = 'CAD';
 		var desc       = req.param('description');

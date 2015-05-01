@@ -66,9 +66,26 @@ module.exports = {
 				}			  		
 			});
 			return deferred.promise;
-		}
+		},
 
+		/*
+		 *		1.	The Club has to fill a form in order to create a 'Customer' entity in ibu's
+		 *			Stripe account. After submiting the form, a Customer and a Card will be created
+		 *			and available for ibu to start charging.
+		 *		2.	Once a Club is created and it's Stripe corresponding 'Customer' created, we subscribe
+		 *			it to a dummy plan (0$/month) in order to be able to charge him some invoices every
+		 *			'x' days.
+		 *		3.	Whenever a Club uses the service, we create an invoice that will be added to a list 
+		 *			of pending invoices. At the end of the month, all invoices will be charged and only
+		 *			at that moment ibu will get a fee% from the total amount from the invoices and gogo
+		 *			will get the rest.
+		 */
+		 clubFinancialSetup: function(description, email, cardnumber, expmonth, expyear, cvc) {
+			// promises
+			var deferred = Q.defer();
 			
+
+		 }
 
 		
 	};
