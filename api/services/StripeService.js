@@ -80,9 +80,68 @@ module.exports = {
 		 *			at that moment ibu will get a fee% from the total amount from the invoices and gogo
 		 *			will get the rest.
 		 */
-		 clubFinancialSetup: function(description, email, cardnumber, expmonth, expyear, cvc) {
+		 clubFinancialSetup: function(desc, mailaddress, cardnumber, expmonth, expyear, cvc) {
 			// promises
 			var deferred = Q.defer();
+			var planId     = "gogo_auto";
+
+
+			// Create Customer from Club's info
+			stripe.customers.create({
+			    description : desc,
+			    email       : mailaddress
+			}, function(err, customer) {
+			    if(!err) {
+			        log('Created Customer' + JSON.stringify(customer, null, 2));
+
+			        // Subscribe to auto plan
+			        //var customerId = req.param('customerid');
+
+			        stripe.customers.createSubscription(
+			            customer.id,
+			            {plan: planId},
+			            function(err, subscription) {
+			                if(!err) {
+			                    log('Customer ' + customerId + ' subscribed to plan ' + planId);
+
+			                    // Create Customer's Credit Card in Stripe system
+			                    stripe.customers.createSource(
+			                        customer.id,
+			                        {
+			                            source: 
+			                            {
+			                                object : 'card',
+			                                number : cardnumber,
+			                                exp_month : expmonth,
+			                                exp_year  : expyear,
+			                                cvc       : cardcvc
+			                            }
+			                        },
+			                        function(err, card) {
+			                            if(!err) {
+			                                log('Created Card: ' + JSON.stringify(card, null, 2));
+			                                //res.send(card);
+			                            }
+			                            else {
+			                                log('ERROR: ' + error);
+			                            }
+			                        }
+		                        );
+			                }
+			                else {
+			                    log('ERROR: ' + error);
+			                }
+			            }
+			        );
+
+			    // ideally the returned customer id should be added to the club's profile so we can retrieve it easily
+			    res.send(customer);
+			    }
+			    else {
+			        log('ERROR: ' + error);
+			    }
+			});
+
 			
 
 		 }
