@@ -121,7 +121,6 @@ module.exports = {
 			                            if(!err) {
 			                                log('Created Card: ' + JSON.stringify(card, null, 2));
 			  								deferred.resolve(customer);
-			                                //res.send(card);
 			                            }
 			                            else {
 			                                log('ERROR: ' + error);
@@ -136,9 +135,6 @@ module.exports = {
 			                }
 			            }
 			        );
-
-			    // ideally the returned customer id should be added to the club's profile so we can retrieve it easily
-			    res.send(customer);
 			    }
 			    else {
 			        log('ERROR: ' + error);
