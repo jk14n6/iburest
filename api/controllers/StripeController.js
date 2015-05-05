@@ -102,7 +102,7 @@
             }
         });
 
-     }
+     },
 
 	/* 
 	 * Get a list of all plans (here all plans starting with string 'gogo_')
