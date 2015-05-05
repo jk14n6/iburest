@@ -79,7 +79,7 @@ module.exports = {
 		 *			at that moment ibu will get a fee% from the total amount from the invoices and gogo
 		 *			will get the rest.
 		 */
-		 clubFinancialSetup: function(desc, mailaddress, cardnumber, expmonth, expyear, cvc, ownername) {
+		 clubFinancialSetup: function(desc, mailaddress, cardnumber, expmonth, expyear, cardcvc, ownername) {
 			// promises
 			var deferred = Q.defer();
 			var planId     = "gogo_auto";
