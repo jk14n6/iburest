@@ -1,0 +1,95 @@
+#clubNameLabel{
+	width: 20%;
+	position: relative;
+	margin-left: 13px;
+}
+
+#clubNameInput{
+	width: 20%;
+	position: relative;
+	margin-left: 10px;
+}
+
+#clubEmailLabel{
+	width: 20%;
+	position: relative;
+	margin-left: 13px;
+}
+
+#clubEmailInput{
+	width: 20%;
+	position: relative;
+	margin-left: 10px;
+}
+
+#clubPhoneLabel{
+	width: 20%;
+	position: relative;
+	margin-left: 13px;
+}
+
+#clubPhoneInput{
+	width: 20%;
+	position: relative;
+	margin-left: 10px;
+}
+
+#clubAddressLabel{
+	width: 20%;
+	position: relative;
+	margin-left: 13px;
+}
+
+#clubAddressInput{
+	width: 20%;
+	position: relative;
+	margin-left: 10px;
+}
+
+#clubCardNumberLabel{
+	width: 20%;
+	position: relative;
+	margin-left: 13px;
+}
+
+#clubCardNumberInput{
+	width: 20%;
+	position: relative;
+	margin-left: 10px;
+}
+
+#clubCardYearLabel{
+	width: 12%;
+	position: relative;
+	margin-left: 13px;
+}
+
+#clubCardYearInput{
+	width: 12%;
+	position: relative;
+	margin-left: 10px;
+}
+
+#clubCardMonthLabel{
+	width: 12%;
+	position: relative;
+	margin-left: 13px;
+}
+
+#clubCardMonthInput{
+	width: 12%;
+	position: relative;
+	margin-left: 10px;
+}
+
+#clubCardCVCLabel{
+	width: 12%;
+	position: relative;
+	margin-left: 13px;
+}
+
+#clubCardCVCInput{
+	width: 12%;
+	position: relative;
+	margin-left: 10px;
+}
