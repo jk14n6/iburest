@@ -57,6 +57,7 @@ module.exports.routes = {
   'post /bank/createcustomer'     : 'StripeController.createCustomer',
   'post /bank/createcard'         : 'StripeController.createCard',
   'post /bank/subscribetoplan'    : 'StripeController.subscribeToPlan',
-  'post /bank/createinvoiceitem'  : 'StripeController.createInvoiceItem'
+  'post /bank/createinvoiceitem'  : 'StripeController.createInvoiceItem',
+  'post /bank/clubfinancialsetup' : 'StripeController.clubfinancialsetup'
 
 };

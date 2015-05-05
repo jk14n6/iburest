@@ -82,6 +82,28 @@
 	 *			will get the rest.
 	 */
 
+     clubfinancialsetup : function(req, res) {
+        var desc       = req.param('description');
+        var courriel   = req.param('email');
+        var cardNumber = req.param('cardnumber');
+        var expMonth   = req.param('expmonth');
+        var expYear    = req.param('expyear');
+        var cardcvc    = req.param('cvc');
+        var name       = req.param('name');
+
+        StripeService.clubFinancialSetup(desc, courriel, cardNumber, expMonth, expYear, cardcvc, name, function(err, customer) {
+            if(!err) {
+                log.info('Created Customer wth id ' + customer.id + ' successfuly!');
+                res.send(200);
+            }
+            else {
+                log.error(JSON.stringify(err, null, 2));
+                res.send(400);
+            }
+        });
+
+     }
+
 	/* 
 	 * Get a list of all plans (here all plans starting with string 'gogo_')
 	 */
@@ -90,9 +112,9 @@
 
     StripeService.getPlans('gogo_')
     .then(function(listOfPlans) {
-        log(JSON.stringify(listOfPlans, null, 2));
+        log.info(JSON.stringify(listOfPlans, null, 2));
     }, function(error) {
-        log(error);
+        log.error(error);
         });
     },
 
@@ -105,13 +127,13 @@
             email       : courriel
         }, function(err, customer) {
             if(!err) {
-                log('Created Customer' + JSON.stringify(customer, null, 2));
+                log.info('Created Customer' + JSON.stringify(customer, null, 2));
 
             // ideally the returned customer id should be added to the club's profile so we can retrieve it easilly
             res.send(customer);
             }
             else {
-                log('ERROR: ' + error);
+                log.error('ERROR: ' + error);
             }
         });
     },
@@ -129,10 +151,10 @@
             {plan: planId},
             function(err, subscription) {
                 if(!err) {
-                    log('Customer ' + customerId + ' subscribed to plan ' + planId);
+                    log.info('Customer ' + customerId + ' subscribed to plan ' + planId);
                 }
                 else {
-                    log('ERROR: ' + error);
+                    log.error('ERROR: ' + error);
                 }
             }
         );
@@ -165,11 +187,11 @@
             },
             function(err, card) {
                 if(!err) {
-                    log('Created Card: ' + JSON.stringify(card, null, 2));
+                    log.info('Created Card: ' + JSON.stringify(card, null, 2));
                     res.send(card);
                 }
                 else {
-                    log('ERROR: ' + error);
+                    log.error('ERROR: ' + error);
                 }
             }
             );
@@ -193,7 +215,7 @@
                     var arrSubscriptions = customer.subscriptions;//JSON.parse(customer.subscriptions);
 
                     //log('customer.subscriptions: ' + JSON.stringify(customer.subscriptions, null, 2));
-                    log('arrSubscriptions: ' + JSON.stringify(arrSubscriptions, null, 2));
+                    log.info('arrSubscriptions: ' + JSON.stringify(arrSubscriptions, null, 2));
 
                     (arrSubscriptions.data).forEach(function (subsc) {
                         if(subsc.plan.id === 'gogo_auto') {
@@ -205,7 +227,7 @@
                                 description: desc,
                                 subscription: subsc.id
                             }, function(err, invoiceItem) {
-                                log('Created Invoice Item: ' + JSON.stringify(invoiceItem, null, 2));
+                                log.error('Created Invoice Item: ' + JSON.stringify(invoiceItem, null, 2));
                             });
                         }
                     });
@@ -222,8 +244,8 @@
 	 * 
 	 * CHARGE_CLUB_01 has to be defined as an env variable to define the amount to charge
 	 */
-    createCharge : function(req, res) {
+    //createCharge : function(req, res) {
 
-    }
+    //}
 };
 

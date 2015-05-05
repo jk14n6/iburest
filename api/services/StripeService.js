@@ -65,7 +65,6 @@ module.exports = {
 			  		//log('Fetched list of plans: ' + JSON.stringify(listOfPlans, null, 2));
 				}			  		
 			});
-			return deferred.promise;
 		},
 
 		/*
@@ -80,7 +79,7 @@ module.exports = {
 		 *			at that moment ibu will get a fee% from the total amount from the invoices and gogo
 		 *			will get the rest.
 		 */
-		 clubFinancialSetup: function(desc, mailaddress, cardnumber, expmonth, expyear, cvc) {
+		 clubFinancialSetup: function(desc, mailaddress, cardnumber, expmonth, expyear, cvc, ownername) {
 			// promises
 			var deferred = Q.defer();
 			var planId     = "gogo_auto";
@@ -102,7 +101,7 @@ module.exports = {
 			            {plan: planId},
 			            function(err, subscription) {
 			                if(!err) {
-			                    log('Customer ' + customerId + ' subscribed to plan ' + planId);
+			                    log('Customer ' + customer.id + ' subscribed to plan ' + planId);
 
 			                    // Create Customer's Credit Card in Stripe system
 			                    stripe.customers.createSource(
@@ -110,26 +109,30 @@ module.exports = {
 			                        {
 			                            source: 
 			                            {
-			                                object : 'card',
-			                                number : cardnumber,
+			                                object    : 'card',
+			                                number    : cardnumber,
 			                                exp_month : expmonth,
 			                                exp_year  : expyear,
-			                                cvc       : cardcvc
+			                                cvc       : cardcvc,
+			                                name      : ownername
 			                            }
 			                        },
 			                        function(err, card) {
 			                            if(!err) {
 			                                log('Created Card: ' + JSON.stringify(card, null, 2));
+			  								deferred.resolve(customer);
 			                                //res.send(card);
 			                            }
 			                            else {
 			                                log('ERROR: ' + error);
+											return deferred.reject(err);
 			                            }
 			                        }
 		                        );
 			                }
 			                else {
 			                    log('ERROR: ' + error);
+								return deferred.reject(err);
 			                }
 			            }
 			        );
@@ -139,12 +142,10 @@ module.exports = {
 			    }
 			    else {
 			        log('ERROR: ' + error);
+					return deferred.reject(err);
 			    }
 			});
 
-			
-
+			return deferred.promise;
 		 }
-
-		
 	};
