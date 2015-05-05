@@ -91,7 +91,7 @@ module.exports = {
 			    email       : mailaddress
 			}, function(err, customer) {
 			    if(!err) {
-			        log('Created Customer' + JSON.stringify(customer, null, 2));
+			        log.info('Created Customer' + JSON.stringify(customer, null, 2));
 
 			        // Subscribe to auto plan
 			        //var customerId = req.param('customerid');
