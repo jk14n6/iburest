@@ -31,15 +31,23 @@
             event.preventDefault();
             var uidClinic = $("#uid").val();
 
+
+        var cardNumber = req.param('cardnumber');
+        var expMonth   = req.param('expmonth');
+        var expYear    = req.param('expyear');
+        var cardcvc    = req.param('cvc');
+        var name       = req.param('name');
+
             var formDataAddr = {
-                streetNumber: $("#clubNameInput").val(),
-                streetNumber: $("#clubEmailInput").val(),
+                description: $("#clubNameInput").val() + ' Subscription to service',
+                email: $("#clubEmailInput").val(),
                 streetNumber: $("#clubPhoneInput").val(),
                 streetNumber: $("#clubAddressInput").val(),
-                streetNumber: $("#clubCardNumberInput").val(),
-                streetNumber: $("#clubCardYearInput").val(),
-                streetNumber: $("#clubCardMonthInput").val(),
-                streetNumber: $("#clubCardCVCInput").val()
+                cardnumber: $("#clubCardNumberInput").val(),
+                expyear: $("#clubCardYearInput").val(),
+                expmonth: $("#clubCardMonthInput").val(),
+                cvc: $("#clubCardCVCInput").val(),
+                name: $("#clubNameOnCardInput").val()
             };
 
             $.ajax({
@@ -103,6 +111,10 @@
       <div class="form-group">
         <label for="clubCardCVCInput" id="clubCardCVCLabel">Credit Card CVC</label>
         <input type="number" class="form-control" id="clubCardCVCInput" placeholder="123 (check behind the card for this number.">
+      </div>
+      <div class="form-group">
+        <label for="clubNameOnCardInput" id="clubNameOnCardLabel">Name on Credit card</label>
+        <input type="number" class="form-control" id="clubNameOnCardInput" placeholder="joe blo">
       </div>
 
       <div class="checkbox">

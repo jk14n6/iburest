@@ -93,3 +93,15 @@
 	position: relative;
 	margin-left: 10px;
 }
+
+#clubNameOnCardLabel{
+	width: 12%;
+	position: relative;
+	margin-left: 13px;
+}
+
+#clubNameOnCardInput{
+	width: 12%;
+	position: relative;
+	margin-left: 10px;
+}

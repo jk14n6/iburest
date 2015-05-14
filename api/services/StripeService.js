@@ -27,7 +27,7 @@ module.exports = {
 					return deferred.reject(err);
 				} 
 				// log info
-				log('Card has been processed for customer: ' + customer.id);
+				log.info('Card has been processed for customer: ' + customer.id);
 
 				// update user with new customer id
 				User.update({ id: userId }, {stripeId : customer.id, hasAgreedTerms : true}).then(function (updatedUsers) {
@@ -101,7 +101,7 @@ module.exports = {
 			            {plan: planId},
 			            function(err, subscription) {
 			                if(!err) {
-			                    log('Customer ' + customer.id + ' subscribed to plan ' + planId);
+			                    log.info('Customer ' + customer.id + ' subscribed to plan ' + planId);
 
 			                    // Create Customer's Credit Card in Stripe system
 			                    stripe.customers.createSource(
@@ -119,25 +119,25 @@ module.exports = {
 			                        },
 			                        function(err, card) {
 			                            if(!err) {
-			                                log('Created Card: ' + JSON.stringify(card, null, 2));
+			                                log.info('Created Card: ' + JSON.stringify(card, null, 2));
 			  								deferred.resolve(customer);
 			                            }
 			                            else {
-			                                log('ERROR: ' + error);
+			                                log.error('ERROR: ' + error);
 											return deferred.reject(err);
 			                            }
 			                        }
 		                        );
 			                }
 			                else {
-			                    log('ERROR: ' + error);
+			                    log.error('ERROR: ' + error);
 								return deferred.reject(err);
 			                }
 			            }
 			        );
 			    }
 			    else {
-			        log('ERROR: ' + error);
+			        log.error('ERROR: ' + error);
 					return deferred.reject(err);
 			    }
 			});
